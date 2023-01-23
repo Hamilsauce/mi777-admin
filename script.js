@@ -1,8 +1,14 @@
 import { createApp, computed, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import { router } from './router/index.js';
+import { getCollectionDocs } from './firebase/db.js';
+
+
 
 const app = createApp({
   setup() {
+    const route = useRoute();
+    const currentPath = computed(() => route.path)
     const cnt = ref(0);
 
     setInterval(() => {
@@ -10,7 +16,8 @@ const app = createApp({
     }, 1000);
 
     return {
-      cnt
+      cnt,
+      currentPath
     }
   },
 });

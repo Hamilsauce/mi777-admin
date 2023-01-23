@@ -11,6 +11,8 @@
   <title>mi777 admin</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.3.0/rxjs.umd.min.js" integrity="sha512-y3JTS47nnpKORJX8Jn1Rlm+QgRIIZHtu3hWxal0e81avPrqUH48yk+aCi+gprT0RMAcpYa0WCkapxe+bpBHD6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link rel="stylesheet" href="./style.css" />
+  <script src="https://www.gstatic.com/firebasejs/ui/6.0.2/firebase-ui-auth.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.2/firebase-ui-auth.css" />
 </head>
 
 <body>
@@ -28,16 +30,14 @@
           <router-link to="/" class="app-button">HOME</router-link>
           <router-link to="/search" class="app-button">SEARCH</router-link>
           <router-link to="/tokens" class="app-button">TOKENS</router-link>
-        <router-link to="/users" class="app-button">USERS</router-link>
-        <router-link to="/orders" class="app-button">ORDERS</router-link>
-          <!-- <div class="app-button">USERS</div> -->
+          <router-link to="/users" class="app-button">USERS</router-link>
+          <router-link to="/orders" class="app-button">ORDERS</router-link>
         </div>
       </div>
     </header>
     <section id="app-body">
-      <!-- <div id="view-title">TOKENS {{cnt}}</div> -->
+      <div id="view-title">{{ currentPath }}</div>
       <router-view></router-view>
-      <!-- <div id="view-frame" class="container"></div> -->
     </section>
     <!-- <footer id="app-footer">
       <div class="container">
@@ -45,6 +45,7 @@
       </div>
     </footer> -->
   </div>
+
   <script type="importmap">
     { 
       "imports": {
@@ -57,10 +58,8 @@
   <script src="./script.js" type="module"></script>
 
   <template id="home-view-template">
-
     <div>
       <div id="home-view">
-        <!-- <div id="selection-display" class="container">{{collectionSelection}}</div> -->
         <section v-for="coll in ['Tokens', 'Users', 'Orders']" id="token-stats" class="stats-card">
           <div class="stats-card-title">{{coll}}</div>
           <div class="stats-card-fields">
@@ -78,7 +77,7 @@
     <div>
       <div id="search-view" class="view">
         <div class="form-container">
-          <search-form/>
+          <search-form />
         </div>
       </div>
     </div>
@@ -107,26 +106,73 @@
     </div>
   </template>
 
-  <template id="tokens-view-template">
-    <div id="users-view">
-      <div v-for="item in 777" class="item">
-        Tokens: {{item}}
+  <template id="order-template">
+    <div>
+      <div class="order list-item">
+        <div class="item-title">Order #{{ order.id }}</div>
+        <div class="item-fields">
+          <div class="field-group">
+            <div class="field-group-name">Token ID</div>
+            <div class="field-group-value">{{ order.tokenId }}</div>
+          </div>
+          <div class="field-group">
+            <div class="field-group-name">Status</div>
+            <div class="field-group-value">{{ order.status }}</div>
+          </div>
+          <div class="field-group">
+            <div class="field-group-name">Jersey Size</div>
+            <div class="field-group-value">{{ order.jerseySize }}</div>
+          </div>
+          <div class="field-group" v-if="!!order.shippingAddress">
+            <div class="field-group-name">Shipping Address</div>
+            <div class="field-group-value"></div>
+            <!-- <div class="field-group-value">{{ order.shippingAddress }}</div> -->
+          </div>
+          <div class="field-group" v-if="!!order.created">
+            <div class="field-group-name">Created</div>
+            <div class="field-group-value">{{ order.created.toDate().toLocaleDateString() + ' ' + order.created.toDate().toLocaleTimeString() }}</div>
+          </div>
+          <div class="field-group" v-if="!!order.modified">
+            <div class="field-group-name">Modified</div>
+            <div class="field-group-value">{{ order.modified.toDate().toLocaleDateString() + ' ' + order.created.toDate().toLocaleTimeString() }}</div>
+          </div>
+        </div>
       </div>
     </div>
   </template>
-  
+
+  <template id="tokens-view-template">
+    <div>
+      <div v-for="(token, index) in tokens" class="token item">
+        <div class="item-title">
+          token #{{token.id}}
+        </div>
+        <pre>
+        {{JSON.stringify(token, null, 2).trim()}}
+        </pre>
+      </div>
+    </div>
+  </template>
+
   <template id="orders-view-template">
-    <div id="orders-view" class="view">
-      <div v-for="item in 40" class="item">
-        Order: {{item}}
+    <div>
+      <div id="orders-view" class="view">
+        <div class="list">
+          <order-item v-for="(order, index) in orders" :order="order" />
+        </div>
       </div>
     </div>
   </template>
 
   <template id="users-view-template">
     <div id="users-view">
-      <div v-for="item in 10" class="item">
-        USERS: {{item}}
+      <div v-for="(user, index) in users" class="user item">
+        <div class="item-title">
+          User #{{index}}
+        </div>
+        <pre>
+        {{JSON.stringify(user, null, 2).trim()}}
+        </pre>
       </div>
     </div>
   </template>

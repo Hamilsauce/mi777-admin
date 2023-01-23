@@ -14,7 +14,7 @@ const routes = [
   { path: '/', component: HomeView },
   { path: '/search', component: SearchView },
   { path: '/tokens', component: TokensView },
-  { path: '/users', component: Users },
+  { path: '/users', component: UsersView },
   { path: '/orders', component: OrdersView },
 ]
 

@@ -16,7 +16,7 @@ export default {
       collectionSelection.value = e.target.selectedOptions[0].value
       console.warn('collectionSelection.value', collectionSelection.value)
     };
-console.log('SEARCH FORM');
+    console.log('SEARCH FORM');
 
     return {
       tokenCount,
