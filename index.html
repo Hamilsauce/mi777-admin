@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <title>mi777 admin</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.3.0/rxjs.umd.min.js" integrity="sha512-y3JTS47nnpKORJX8Jn1Rlm+QgRIIZHtu3hWxal0e81avPrqUH48yk+aCi+gprT0RMAcpYa0WCkapxe+bpBHD6g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <div id="app">
+    <header id="app-header">
+      <div id="header-top">
+        <div id="app-header-left"></div>
+        <div id="app-header-center">
+          <h1>mi777 Admin</h1>
+        </div>
+        <div id="app-header-right"></div>
+      </div>
+      <div id="header-bottom">
+        <div id="app-nav">
+          <router-link to="/" class="app-button">HOME</router-link>
+          <router-link to="/search" class="app-button">SEARCH</router-link>
+          <router-link to="/tokens" class="app-button">TOKENS</router-link>
+        <router-link to="/users" class="app-button">USERS</router-link>
+        <router-link to="/orders" class="app-button">ORDERS</router-link>
+          <!-- <div class="app-button">USERS</div> -->
+        </div>
+      </div>
+    </header>
+    <section id="app-body">
+      <!-- <div id="view-title">TOKENS {{cnt}}</div> -->
+      <router-view></router-view>
+      <!-- <div id="view-frame" class="container"></div> -->
+    </section>
+    <!-- <footer id="app-footer">
+      <div class="container">
+        footer
+      </div>
+    </footer> -->
+  </div>
+  <script type="importmap">
+    { 
+      "imports": {
+        "vue":               "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.41/vue.esm-browser.prod.js",
+        "vue-router":        "https://cdnjs.cloudflare.com/ajax/libs/vue-router/4.1.6/vue-router.esm-browser.min.js",
+        "@vue/devtools-api": "https://unpkg.com/@vue/devtools-api@6.4.5/lib/esm/index.js"
+      } 
+    }
+  </script>
+  <script src="./script.js" type="module"></script>
+
+  <template id="home-view-template">
+
+    <div>
+      <div id="home-view">
+        <!-- <div id="selection-display" class="container">{{collectionSelection}}</div> -->
+        <section v-for="coll in ['Tokens', 'Users', 'Orders']" id="token-stats" class="stats-card">
+          <div class="stats-card-title">{{coll}}</div>
+          <div class="stats-card-fields">
+            <div v-for="i in 4" class="field-group">
+              <div class="field-group-name">Total Owned</div>
+              <div class="field-group-value">{{i}}</div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </template>
+
+  <template id="search-view-template">
+    <div>
+      <div id="search-view" class="view">
+        <div class="form-container">
+          <search-form/>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="search-form-template">
+    <div>
+      <div id="search-form" class="container">
+        <div class="form-group">
+          <label for="collection-select">Collection</label>
+          <select @change="handleCollectionSelectionChange" type="number" name="collection-select" id="collection-select">
+            <option value="tokens">Tokens</option>
+            <option value="users">Users</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="form-group">
+            <label for="search-input">{{collectionSelection}}</label>
+            <input :type="collectionSelection === 'tokens' ? 'number' : 'text'" name="search-input" id="token-search-input" value="" />
+          </div>
+        </div>
+        <div class="form-group">
+          <input @click="handleSearchSubmit" type="submit" name="search-submit" id="search-submit" value="kew" />
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="tokens-view-template">
+    <div id="users-view">
+      <div v-for="item in 777" class="item">
+        Tokens: {{item}}
+      </div>
+    </div>
+  </template>
+  
+  <template id="orders-view-template">
+    <div id="orders-view" class="view">
+      <div v-for="item in 40" class="item">
+        Order: {{item}}
+      </div>
+    </div>
+  </template>
+
+  <template id="users-view-template">
+    <div id="users-view">
+      <div v-for="item in 10" class="item">
+        USERS: {{item}}
+      </div>
+    </div>
+  </template>
+  <template>
+    <div id="home-view">
+      HOME
+    </div>
+  </template>
+</body>
+
+</html>
