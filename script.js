@@ -8,7 +8,7 @@ import { getCollectionDocs } from './firebase/db.js';
 const app = createApp({
   setup() {
     const route = useRoute();
-    const currentPath = computed(() => route.path)
+    const currentPath = computed(() => route.path.replace(/\//g,''));
     const cnt = ref(0);
 
     setInterval(() => {

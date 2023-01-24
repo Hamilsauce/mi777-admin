@@ -16,6 +16,8 @@
 </head>
 
 <body>
+  <!-- <div id="firebaseui-auth-container"></div> -->
+  <!-- <div id="loader">Loading...</div> -->
   <div id="app">
     <header id="app-header">
       <div id="header-top">
@@ -106,6 +108,41 @@
     </div>
   </template>
 
+  <template id="token-template">
+    <div>
+      <div class="token list-item">
+        <div class="item-title">Token #{{ token.id }}</div>
+        <div class="item-fields">
+          <!-- <div class="field-group">
+            <div class="field-group-name">Token ID</div>
+            <div class="field-group-value">{{ token.tokenId }}</div>
+          </div> -->
+          <div class="field-group">
+            <div class="field-group-name">Owner</div>
+            <div class="field-group-value">{{ token.owner }}</div>
+          </div>
+          <!-- <div class="field-group">
+            <div class="field-group-name">Jersey Size</div>
+            <div class="field-group-value">{{ token.jerseySize }}</div>
+          </div> -->
+          <!-- <div class="field-group" v-if="!!token.shippingAddress">
+            <div class="field-group-name">Shipping Address</div>
+            <div class="field-group-value"></div>
+            <div class="field-group-value">{{ order.shippingAddress }}</div>
+          </div> -->
+          <!-- <div class="field-group" v-if="!!token.created">
+            <div class="field-group-name">Created</div>
+            <div class="field-group-value">{{ token.created.toDate().toLocaleDateString() + ' ' + token.created.toDate().toLocaleTimeString() }}</div>
+          </div> -->
+          <div class="field-group" v-if="!!token.modified">
+            <div class="field-group-name">Modified</div>
+            <div class="field-group-value">{{ token.modified.toDate().toLocaleDateString() + ' ' + token.created.toDate().toLocaleTimeString() }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
   <template id="order-template">
     <div>
       <div class="order list-item">
@@ -143,14 +180,17 @@
 
   <template id="tokens-view-template">
     <div>
-      <div v-for="(token, index) in tokens" class="token item">
+      <div class="list">
+        <token-item v-for="(token, index) in tokens" :token="token" />
+      </div>
+      <!-- <div v-for="(token, index) in tokens" class="token item">
         <div class="item-title">
           token #{{token.id}}
         </div>
         <pre>
         {{JSON.stringify(token, null, 2).trim()}}
         </pre>
-      </div>
+      </div> -->
     </div>
   </template>
 
@@ -165,20 +205,24 @@
   </template>
 
   <template id="users-view-template">
-    <div id="users-view">
-      <div v-for="(user, index) in users" class="user item">
-        <div class="item-title">
-          User #{{index}}
+    <div>
+      <div id="users-view">
+        <div v-for="(user, index) in users" class="user item">
+          <div class="item-title">
+            User #{{index}}
+          </div>
+          <pre>
+          {{JSON.stringify(user, null, 2).trim()}}
+          </pre>
         </div>
-        <pre>
-        {{JSON.stringify(user, null, 2).trim()}}
-        </pre>
       </div>
     </div>
   </template>
   <template>
     <div id="home-view">
-      HOME
+      <div>
+        HOME
+      </div>
     </div>
   </template>
 </body>

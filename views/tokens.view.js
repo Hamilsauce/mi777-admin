@@ -2,17 +2,25 @@ import { defineComponent, computed, ref } from 'vue'
 import ham from 'https://hamilsauce.github.io/hamhelper/hamhelper1.0.0.js';
 const { template, utils } = ham;
 import { getCollectionDocs, getDocCount } from '../firebase/db.js';
+import TokenItem from '../components/token.component.js';
 
 export default {
+  components: {
+    'token-item': TokenItem
+  },
   template: template('tokens-view'),
   setup() {
     const tokens = ref([]);
-
-    setTimeout(async () => {
-      tokens.value = (await getCollectionDocs('tokens')).filter(_ => !!_.owner).sort((a, b) => +a.id - +b.id)
-      // userCount.value = await getDocCount('tokens')
+  
+    const getTokens = async () => {
+      tokens.value = (await getCollectionDocs('tokens')).sort((a, b) => +a.id - +b.id)
       console.warn('tokens.value', tokens.value)
-    }, 0);
+    }
+    getTokens()
+    // setTimeout(async () => {
+    //   tokens.value = (await getCollectionDocs('tokens')).filter(_ => !!_.owner).sort((a, b) => +a.id - +b.id)
+    //   // userCount.value = await getDocCount('tokens')
+    // }, 0);
 
     return {
       tokens
