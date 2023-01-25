@@ -1,0 +1,29 @@
+[CONNECT]
+  1) handle Connect => wallet
+  
+  2) Check if any submitted orders/tokens with owners match tokenId
+    a. If token has matching submitted order/token doc has no owner, 
+       do nothing - token is locked, 
+       
+    b. If token has NO matching submitted order/token doc with owner,
+       I) Find any Default (orders with status = 'UNASSIGNED' AND id = token id)
+          and DELETE order doc
+     
+       II) Create Default/UNASSIGNED Order under user/wallet for that 
+           token 
+
+
+[BALANCE]
+  • If a user Has O orders Submitted,
+  then Balance = Tokens in Wallet.
+  
+  • If user has > 0 Submitted Orders, 
+  then Balance = Unowned tokens in wallet + submitted orders
+
+
+[ORDER SUBMIT]
+  1) UPDATE ORDER AND SET STATUS = 'ASSIGNED'
+  
+  2) UPDATE TOKEN DOC - Set owner to wallet
+
+  • TOKEN NOW LOCKED;

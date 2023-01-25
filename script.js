@@ -3,7 +3,18 @@ import { useRoute } from 'vue-router'
 import { router } from './router/index.js';
 import { getCollectionDocs } from './firebase/db.js';
 
-
+/*
+  FEATURES
+  
+  Queries
+    - Find all Orders by token/order ID
+    - Find all token docs by owner
+    - Find all owned or unowned tokens
+    - Find all owned or unowned tokens
+    - Join orders to token by wallet
+    
+    - Search and View reults across Collections
+*/
 
 const app = createApp({
   setup() {

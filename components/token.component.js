@@ -9,7 +9,9 @@ export default {
   },
   setup(props) {
     const token = ref(props.token)
-    console.log('TOKEN', token.value)
+    // const modified = computed(() => token.modified.value ? props.token.modified.toDate().toLocalDateString() : null  )
+    console.log('TOKEN.value', token.value.constructor.name )
+    // console.log('modified', modified.value)
     // const collectionSelection = ref('tokens');
 
     const handleClick = (e) => {

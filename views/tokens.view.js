@@ -1,7 +1,7 @@
 import { defineComponent, computed, ref } from 'vue'
 import ham from 'https://hamilsauce.github.io/hamhelper/hamhelper1.0.0.js';
 const { template, utils } = ham;
-import { getCollectionDocs, getDocCount } from '../firebase/db.js';
+import { getCollectionDocs, getOwnedTokens } from '../firebase/db.js';
 import TokenItem from '../components/token.component.js';
 
 export default {
@@ -13,7 +13,7 @@ export default {
     const tokens = ref([]);
   
     const getTokens = async () => {
-      tokens.value = (await getCollectionDocs('tokens')).sort((a, b) => +a.id - +b.id)
+      tokens.value = (await getOwnedTokens()).sort((a, b) => +a.id - +b.id)
       console.warn('tokens.value', tokens.value)
     }
     getTokens()

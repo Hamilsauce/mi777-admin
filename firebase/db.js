@@ -1,7 +1,14 @@
-import { firestore } from './firebase.js';
 // const { collection, doc, setDoc, addDoc, getDoc, getDocs } = db;
-const { query, collection, getDocs, collectionGroup } = firestore
+import { firestore } from './firebase.js';
+const { query, where, collection, getDocs, collectionGroup } = firestore
 
+export const coerce = (value) => {
+  const specials = new Map([['null', null]])
+ 
+  if (specials.has(value)) return specials.get(value)
+  
+  return value.toString()
+}
 
 export const collections = {
   tokens: collection('tokens'),
@@ -9,13 +16,45 @@ export const collections = {
   orders: collectionGroup('orders')
 }
 
-export const getCollectionDocs = async (collectionName = 'users') => {
+export const getQuery = async (collectionName = 'users', options = {}) => {
+  const { params } = options
+
+  const newQuery = query(
+    collections[collectionName],
+    where(params.field, params.operator, coerce(params.value))
+  );
+
+  // const querySnapshot = (await getDocs(newQuery))
+
+  const res = (await getDocs(newQuery)).docs.map(doc => doc.data())
+  
+  return res
+}
+
+export const getCollectionDocs = async (collectionName = 'users', ) => {
   const querySnapshot = await getDocs(collections[collectionName]);
 
   return querySnapshot.docs.map(doc => {
-    return collectionName === 'orders' ?
-      { ...doc.data(), id: doc.id, owner: doc.ref.parent.parent.id } :
-      { ...doc.data(), id: doc.id }
+    return collectionName === 'orders' ? { ...doc.data(), id: doc.id, owner: doc.ref.parent.parent.id } : { ...doc.data(), id: doc.id }
+  })
+}
+
+export const getOwnedTokens = async () => {
+  const tokenQuery = query(
+    collections.tokens,
+    where('owner', '!=', null)
+  );
+
+  const querySnapshot = await getDocs(tokenQuery);
+
+  return querySnapshot.docs.map(doc => {
+    console.log('!!doc.modified ', !!doc.modified)
+    const data = doc.data();
+    return {
+      ...data,
+      id: doc.id,
+      modified: !!data.modified ? data.modified.toDate() : null
+    };
   })
 }
 

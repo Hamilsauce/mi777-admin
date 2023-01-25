@@ -38,7 +38,7 @@ body {
 
 #app {
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr;
   grid-template-columns: 1fr;
   gap: 0px;
   width: 100%;
@@ -88,7 +88,7 @@ body {
   grid-auto-rows: auto 1fr;
   grid-template-columns: 1fr;
   gap: 8px;
-  /* width: 100%; */
+  width: 100%;
   height: 100%;
   padding: 8px;
   overflow-y: scroll;
@@ -106,19 +106,6 @@ body {
   font-weight: 700;
 }
 
-/* #view-frame {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 0px;
-  width: 100%;
-  height: 100%;
-  padding: 8px;
-  background: #D4D4D4;
-  overflow-y: scroll;
-} */
-
 #home-view {
   display: flex;
   flex-direction: column;
@@ -127,7 +114,6 @@ body {
   gap: 16px;
   width: 100%;
   height: 100%;
-  /* overflow: scroll; */
 }
 
 .stats-card {
@@ -136,7 +122,6 @@ body {
   grid-template-columns: 1fr;
   gap: 8px;
   width: 100%;
-  /* height: 100%; */
   padding: 8px;
   background: #EBEBEB;
 }
@@ -157,23 +142,19 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 0px;
   width: 100%;
-  height: 100%;
-  /* border: 1px solid #3B3B3B; */
 }
 
 .field-group {
   display: grid;
   grid-template-rows: auto;
-  grid-template-columns: 1fr 1fr;
-  gap: 0px;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
   width: 100%;
-  height: 100%;
   border-right: 1px solid #3B3B3B;
-  /* border: 1px solid #3B3B3B; */
+  overflow-x: scroll;
 }
 
 .field-group>div {
-  /* white-space: nowrap; */
   padding: 8px;
 }
 
@@ -183,7 +164,8 @@ body {
   justify-content: flex-start;
   align-items: center;
   gap: 0px;
-  /* border: 1px solid #3B3B3B; */
+  width: 100%;
+  font-weight: 700;
 }
 
 .field-group-value {
@@ -192,7 +174,19 @@ body {
   justify-content: flex-end;
   align-items: center;
   gap: 0px;
-  /* border: 1px solid #3B3B3B; */
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.field-group-value.wallet-value {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0px;
+  width: 100%;
+  text-align: left;
+  overflow-x: scroll;
 }
 
 #search-form {
@@ -208,7 +202,7 @@ body {
 .form-group {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   gap: 0;
   width: 100%;
@@ -237,7 +231,6 @@ select {
   width: 100%;
   height: 100%;
   overflow-x: hidden
-    /* background: yellow; */
 }
 
 #users-view {
@@ -248,7 +241,6 @@ select {
   gap: 0px;
   width: 100%;
   height: 100%;
-  /* background: yellow; */
 }
 
 .list {
@@ -262,16 +254,21 @@ select {
   overflow-x: hidden
 }
 
-.item {
+.list-item {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   gap: 0px;
   width: 100%;
-  /* height: 100%; */
   padding: 8px;
   background: #E3E3E3;
+  transition: 0.2s;
+  /* overflow: hidden; */
+}
+
+.list-item:active {
+  background: #CCCCCC;
 }
 
 .item-title {
@@ -281,17 +278,7 @@ select {
   align-items: center;
   gap: 0px;
   width: 100%;
-  /* height: 100%; */
   background: #E3E3E3;
   font-size: 18px;
   font-weight: 700;
-  /* padding: 8px; */
 }
-
-/* .item .field-group {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 0px;
-} */
