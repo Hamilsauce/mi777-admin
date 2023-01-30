@@ -21,7 +21,7 @@ const app = createApp({
     const route = useRoute();
     const currentPath = computed(() => route.path.replace(/\//g,''));
     const cnt = ref(0);
-
+console.log('route', route)
     setInterval(() => {
       cnt.value++
     }, 1000);

@@ -11,9 +11,15 @@ export default {
   template: template('orders-view'),
   setup() {
     const orders = ref([]);
+    const selectMode = ref(false);
+    const selectedOrderIds = ref([]);
 
     const getOrders = async () => {
-      orders.value = (await getCollectionDocs('orders')).sort((a, b) => +a.id - +b.id)
+      orders.value = Object.values((await getCollectionDocs('orders'))).sort((a, b) => +a.id - +b.id)
+    }
+   
+    const handleSelectOrderButtons =  (e) => {
+      selectMode.value = !selectMode.value;
     }
     
     getOrders();

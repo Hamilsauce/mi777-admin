@@ -35,11 +35,11 @@ const app = initializeApp(firebaseConfig);
 const instance: Firestore = getFirestore(app);
 
 export const firestore = {
-  instance,
-  Timestamp,
+  // instance,
+  // Timestamp,
   query,
   writeBatch: () => writeBatch(instance),
-  onSnapshot: (pathOrDocRef: string | DocumentReference < DocumentData > , pathSegments: string[], callback: (doc: DocumentSnapshot) => void): Unsubscribe => onSnapshot(pathOrDocRef instanceof DocumentReference < DocumentData > ? pathOrDocRef : doc(instance, pathOrDocRef, ...pathSegments), callback),
+  onSnapshot(pathOrDocRef: string | DocumentReference<DocumentData>, pathSegments: string[], callback: (doc: DocumentSnapshot) => void) { return onSnapshot(pathOrDocRef instanceof DocumentReference < DocumentData > ? pathOrDocRef : doc(instance, pathOrDocRef, ...pathSegments), callback)},
   collection: (path: string, ...pathSegments: string[]): CollectionReference => collection(instance, path, ...pathSegments),
   doc: (path: string, ...pathSegments: string[]): DocumentReference < DocumentData > => doc(instance, path, ...pathSegments),
   setDoc: (documentReference: DocumentReference < DocumentData > , data ? : PartialWithFieldValue < DocumentData > , options ? : SetOptions): Promise < void > => setDoc(documentReference, data),

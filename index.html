@@ -110,11 +110,45 @@
     </div>
   </template>
 
+  <template id="document-view-template">
+    <div>
+      <div id="document-view" class="view">
+        <div class="form-container">
+          <document-form :order="order" />
+        </div>
+      </div>
+    </div>
+  </template>
+
   <template id="search-view-template">
     <div>
       <div id="search-view" class="view">
         <div class="form-container">
           <search-form />
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="document-form-template">
+    <div>
+      <div id="document-form" class="container">
+        <div class="item-title">Order #{{ order.id }}</div>
+        <div class="field-group">
+          <div class="field-group-name">Owner</div>
+          <div class="field-group-value">{{ order.owner }}</div>
+        </div>
+        <div class="form-group">
+          <label for="status-select">Status</label>
+          <select v-model="order.status" c_hange="handleCollectionSelectionChange" name="collection-select" id="collection-select">
+            <option value="SHIPPING_ASSIGNED">SHIPPING_ASSIGNED</option>
+            <option value="FULFILLED">FULFILLED</option>
+            <option value="CLOSED">CLOSED</option>
+            <option value="SHIPPING_UNASSIGNED">SHIPPING_UNASSIGNED</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <input @click="handleUpdateSubmit" type="submit" name="search-submit" id="search-submit" value="kew" />
         </div>
       </div>
     </div>
@@ -131,7 +165,7 @@
             <option value="users">Users</option>
           </select>
         </div>
-   
+
         <div class="form-group">
           <label for="search-field-input">Search Field</label>
           <input v-model="searchField" type="text" name="search-field-input" id="search-field-input" value="" />
@@ -140,8 +174,8 @@
           <label for="search-operator-input">Search Operator</label>
           <input v-model="searchOperator" type="text" name="search-operator-input" id="search-operator-input" value="" />
         </div> -->
-      
-           <div class="form-group">
+
+        <div class="form-group">
           <label for="operator-select">operator</label>
           <select v-model="operatorSelection" c_hange="handleCollectionSelectionChange" name="operator-select" id="operator-select">
             <option disabled value="">Please select one</option>
@@ -149,8 +183,8 @@
             <option value="!=">Not Equal</option>
           </select>
         </div>
-   
-      
+
+
         <div class="form-group">
           <label for="search-value-input">Search Value</label>
           <input v-model="searchValue" type="text" name="search-value-input" id="search-value-input" value="" />
@@ -168,27 +202,10 @@
       <div class="token list-item">
         <div class="item-title">Token #{{ token.id }}</div>
         <div class="item-fields">
-          <!-- <div class="field-group">
-            <div class="field-group-name">Token ID</div>
-            <div class="field-group-value">{{ token.tokenId }}</div>
-          </div> -->
           <div class="field-group">
             <div class="field-group-name">Owner</div>
             <div class="field-group-value wallet-value">{{ token.owner }}</div>
           </div>
-          <!-- <div class="field-group">
-            <div class="field-group-name">Jersey Size</div>
-            <div class="field-group-value">{{ token.jerseySize }}</div>
-          </div> -->
-          <!-- <div class="field-group" v-if="!!token.shippingAddress">
-            <div class="field-group-name">Shipping Address</div>
-            <div class="field-group-value"></div>
-            <div class="field-group-value">{{ order.shippingAddress }}</div>
-          </div> -->
-          <!-- <div class="field-group" v-if="!!token.created">
-            <div class="field-group-name">Created</div>
-            <div class="field-group-value">{{ token.created.toDate().toLocaleDateString() + ' ' + token.created.toDate().toLocaleTimeString() }}</div>
-          </div> -->
           <div class="field-group">
             <div class="field-group-name">Modified</div>
             <div v-if="!!token.modified" class="field-group-value">{{ token.modified.toLocaleDateString() + ' ' + token.modified.toLocaleTimeString() }}</div>
@@ -198,9 +215,26 @@
     </div>
   </template>
 
+
+  <template id="tokens-view-template">
+    <div>
+      <div class="list">
+        <token-item v-for="(token, index) in tokens" :token="token" />
+      </div>
+      <!-- <div v-for="(token, index) in tokens" class="token item">
+        <div class="item-title">
+          token #{{token.id}}
+        </div>
+        <pre>
+        {{JSON.stringify(token, null, 2).trim()}}
+        </pre>
+      </div> -->
+    </div>
+  </template>
+
   <template id="order-template">
     <div>
-      <div class="order list-item">
+      <div @click="handleClick" class="order list-item">
         <div class="item-title">Order #{{ order.id }}</div>
         <div class="item-fields">
           <div class="field-group">
@@ -233,25 +267,12 @@
     </div>
   </template>
 
-  <template id="tokens-view-template">
-    <div>
-      <div class="list">
-        <token-item v-for="(token, index) in tokens" :token="token" />
-      </div>
-      <!-- <div v-for="(token, index) in tokens" class="token item">
-        <div class="item-title">
-          token #{{token.id}}
-        </div>
-        <pre>
-        {{JSON.stringify(token, null, 2).trim()}}
-        </pre>
-      </div> -->
-    </div>
-  </template>
-
   <template id="orders-view-template">
     <div>
       <div id="orders-view" class="view">
+        <div class="form-group">
+          <input @click="handleSelectOrderButtons" type="submit" name="search-submit" id="search-submit" value="kew" />
+        </div>
         <div class="list">
           <order-item v-for="(order, index) in orders" :order="order" />
         </div>

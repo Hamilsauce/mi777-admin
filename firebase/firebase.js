@@ -1,5 +1,5 @@
 // import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-// import { getAuth, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js'
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js'
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js'
 import {
   getFirestore,
@@ -31,6 +31,46 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const instance = getFirestore(app);
+
+
+const auth = getAuth();
+
+const JAKE_CREDS = {
+  email: 'jacobwilsonhamilton@gmail.com',
+  password: 'Milady777'
+}
+
+
+
+// createUserWithEmailAndPassword(auth, JAKE_CREDS.email, JAKE_CREDS.password)
+  // .then((userCredential) => {
+  //   const user = userCredential.user;
+  //   console.log('CREATED USER', user)
+  // })
+  // .catch((error) => {
+  //   const errorCode = error.code;
+  //   const errorMessage = error.message;
+  //   // ..
+  //   console.log('CREATED FAIL', errorMessage)
+  // });
+
+
+
+
+signInWithEmailAndPassword(auth, JAKE_CREDS.email, JAKE_CREDS.password)
+.then((userCredential) => {
+  // Signed in 
+  const user = userCredential.user;
+console.log('AUTHED USER', user)
+})
+.catch((error) => {
+  const errorCode = error.code;
+  const errorMessage = error.message;
+console.log('AUTH FAIL', errorMessage)
+});
+
+
+
 
 // var uiConfig = {
 //   callbacks: {
@@ -84,15 +124,15 @@ export const instance = getFirestore(app);
 
 
 // signInWithEmailAndPassword(auth, email, password)
-  // .then((userCredential) => {
-  //   // Signed in 
-  //   const user = userCredential.user;
-  //   // ...
-  // })
-  // .catch((error) => {
-  //   const errorCode = error.code;
-  //   const errorMessage = error.message;
-  // });
+// .then((userCredential) => {
+//   // Signed in 
+//   const user = userCredential.user;
+//   // ...
+// })
+// .catch((error) => {
+//   const errorCode = error.code;
+//   const errorMessage = error.message;
+// });
 
 
 export const firestore = {
@@ -101,10 +141,10 @@ export const firestore = {
   where,
   onSnapshot: (pathOrRef, pathSegments, callback) => onSnapshot(pathOrDocRef instanceof DocumentReference ? pathOrDocRef : doc(firestore, pathOrDocRef, ...pathSegments), callback),
   collection: (path, ...pathSegments) => collection(instance, path, ...pathSegments),
-  doc: (path, ...pathSegments) => doc(firestore, path, ...pathSegments),
+  doc: (path, ...pathSegments) => doc(instance, path, ...pathSegments),
   setDoc: (documentReference, data, options) => setDoc(documentReference, data),
   getDoc: (documentReference) => getDoc(documentReference),
   getDocs: (query) => getDocs(query),
-  updateDoc: (documentReference, data) => updateDoc(documentReference, data),
+  updateDoc: (documentReference, data) => updateDoc(instance,documentReference, data),
   getServerTimestamp: () => serverTimestamp(),
 }

@@ -1,18 +1,6 @@
 // const { collection, doc, setDoc, addDoc, getDoc, getDocs } = db;
 import { firestore } from './firebase.js';
-const {
-  updateDoc,
-  query,
-  doc,
-  where,
-  collection,
-  getDocs,
-  getDoc,
-  collectionGroup,
-  // onSnapshot,
-} = firestore
-
-const JAKE_WALLET = '0x723a0dcced8cddde143ada5781e301acd741ed84';
+const { updateDoc, query, doc, where, collection, getDocs, collectionGroup } = firestore
 
 export const coerce = (value) => {
   const specials = new Map([['null', null]])
@@ -40,7 +28,7 @@ export const init = async () => {
   CACHE.tokens = normalizeCollection((await getCollectionDocs('tokens'))) //.sort((a, b) => +a.id - +b.id))
   CACHE.users = normalizeCollection(await getCollectionDocs('users'))
   CACHE.orders = (await getCollectionDocs('orders'))
-  // .sort((a, b) => +a.id - +b.id)
+    .sort((a, b) => +a.id - +b.id)
   // CACHE.tokens = (await getCollectionDocs('tokens')).sort((a, b) => +a.id - +b.id)
   // CACHE.orders = (await getCollectionDocs('orders')).sort((a, b) => +a.id - +b.id)
 }
@@ -66,7 +54,6 @@ export const createOrder = async (wallet, tokenId, data) => {
   if (!!token.owner) {
     return console.error('TOKEN OWNED ALREADY, CANNOT CREATE ORDER');
   }
-
   const matchedOrders = CACHE.orders[tokenId];
 
   const querySnapshot = await getDocs(collections[collectionName]);
@@ -77,30 +64,7 @@ export const createOrder = async (wallet, tokenId, data) => {
 }
 
 
-export const updateOrder = async (wallet, id, updates) => {
-  if (!updates) return console.error('NO UPDATE PASSED');
-
-  const orderRef = doc('users', wallet, 'orders', id.toString());
-  const tokenRef = doc('tokens', id.toString());
-  const tokenDoc = (await getDoc(tokenRef)).data()
-
-  if (!!tokenDoc.owner && tokenDoc.owner != JAKE_WALLET) return console.error('TOKEN ALREADY ASSIGNED OWNER');
-
-
-  if (updates.status && updates.status === 'SHIPPING_ASSIGNED') {
-
-    const newQuery = query(
-      collections.orders,
-      where('id', '==', coerce(id))
-    );
-    console.log('newQuery', newQuery)
-    const res = (await getDocs(newQuery)).docs.map(doc => doc.data())
-    console.log('res', res)
-    // await updateDoc(washingtonRef, {
-    //   capital: true
-    // });
-
-  }
+export const updateOrder = async (wallet, id) => {
   const querySnapshot = await getDocs(collections[collectionName]);
 
   return querySnapshot.docs.map(doc => {
@@ -123,13 +87,12 @@ export const getQuery = async (collectionName = 'users', options = {}) => {
 }
 
 export const getCollectionDocs = async (collectionName = 'users', ) => {
-  console.log('collections[collectionName]', collectionName, collections[collectionName])
   const querySnapshot = await getDocs(collections[collectionName]);
 
   return querySnapshot.docs.map(doc => {
-    // console.log('doc', doc)
-    return collectionName === 'orders' ? { ...doc.data(), id: doc.id, user: doc.ref.parent.parent.id } : { ...doc.data(), id: doc.id }
-    // return { ...doc.data(), id: doc.id }
+    // return collectionName === 'orders' ?
+    // { ...doc.data(), id: doc.id, user: doc.parent.parent.id }:
+    return { ...doc.data(), id: doc.id }
   })
 }
 
@@ -159,10 +122,10 @@ export const _getDocument = async (collectionName = 'users', ...segments) => {
 }
 
 
-export const getDocumentById = async (collectionName = 'users', id) => {
+export const getDocumentById = async (collectionName = 'users', ...segments) => {
   const newQuery = query(
     collections[collectionName],
-    where('tokenId', '==', id)
+    where('id', '==', params.id)
   );
 
   const res = (await getDocs(newQuery)).docs.map(doc => doc.data());

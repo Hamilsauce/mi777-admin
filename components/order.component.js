@@ -1,5 +1,7 @@
 import { defineComponent, computed, ref } from 'vue'
+import { router } from '../router/index.js';
 import ham from 'https://hamilsauce.github.io/hamhelper/hamhelper1.0.0.js';
+
 const { template, utils } = ham;
 
 export default {
@@ -8,15 +10,12 @@ export default {
     order: Object,
   },
   setup(props) {
-    console.log('props', props.order)
     const order = ref(props.order)
-    // const collectionSelection = ref('tokens');
 
     const handleClick = (e) => {
       console.log('handleClick');
+      router.push('/orders/'+order.value.id)
     };
-
-    // console.log('ORDER', order.value);
 
     return {
       order,

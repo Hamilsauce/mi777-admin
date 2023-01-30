@@ -189,6 +189,15 @@ body {
   overflow-x: scroll;
 }
 
+#document-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 32px;
+}
 #search-form {
   display: flex;
   flex-direction: column;
